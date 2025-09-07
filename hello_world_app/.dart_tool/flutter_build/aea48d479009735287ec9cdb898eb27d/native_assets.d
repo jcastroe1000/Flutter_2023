@@ -1,0 +1,1 @@
+ C:\\Users\\aguil\\Documents\\Cursos\\Flutter_2023\\hello_world_app\\.dart_tool\\flutter_build\\aea48d479009735287ec9cdb898eb27d\\native_assets.yaml: 
