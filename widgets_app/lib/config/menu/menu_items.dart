@@ -48,4 +48,16 @@ const appMenuItems = <MenuItems>[
     link: '/ui-controls',
     icon: Icons.card_membership_rounded,
   ),
+  MenuItems(
+    title: 'App Tutorial',
+    subTitle: 'App tutorial',
+    link: '/appTutorial',
+    icon: Icons.remove_red_eye_outlined,
+  ),
+  MenuItems(
+    title: 'Infinite Scroll y pull',
+    subTitle: 'Infinite Scroll',
+    link: '/infiniteScroll',
+    icon: Icons.screen_rotation_sharp,
+  ),
 ];
