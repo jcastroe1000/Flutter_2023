@@ -9,7 +9,7 @@ class MoviedbDatasource extends MoviesDartasoruces {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
-      queryParameters: {'api_kety': Environmet.movieDdKey, 'language': 'es-MX'},
+      queryParameters: {'api_key': Environmet.movieDdKey, 'language': 'es-MX'},
     ),
   );
   @override
