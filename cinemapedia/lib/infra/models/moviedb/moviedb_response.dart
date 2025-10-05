@@ -16,7 +16,7 @@ class MoviDbResponse {
   });
 
   factory MoviDbResponse.fromJson(Map<String, dynamic> json) => MoviDbResponse(
-    dates: json["dates"] ? Dates.fromJson(json["dates"]) : null,
+    dates: json["dates"] != null ? Dates.fromJson(json["dates"]) : null,
     page: json["page"],
     results: List<MovieMovieDB>.from(
       json["results"].map((x) => MovieMovieDB.fromJson(x)),
