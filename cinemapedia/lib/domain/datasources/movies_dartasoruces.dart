@@ -5,4 +5,5 @@ abstract class MoviesDartasoruces {
   Future<List<Movie>> getPopular({int page = 1});
   Future<List<Movie>> getUpComming({int page = 1});
   Future<List<Movie>> getTopRated({int page = 1});
+  Future<Movie> getMovieDetail(String id);
 }
