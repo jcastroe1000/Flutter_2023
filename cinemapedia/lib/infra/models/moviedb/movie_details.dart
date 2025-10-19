@@ -172,7 +172,7 @@ class Genre {
 
 class ProductionCompany {
   final int id;
-  final dynamic logoPath;
+  final dynamic? logoPath;
   final String name;
   final String originCountry;
 
