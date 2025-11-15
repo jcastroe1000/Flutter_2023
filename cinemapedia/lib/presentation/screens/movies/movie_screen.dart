@@ -120,9 +120,7 @@ class _ActorsByMovie extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final actorsByMovie = ref.watch(actorsByMovieProvider);
-    if (actorsByMovie[movieId] == null) {
-      CircularProgressIndicator(strokeWidth: 2);
-    }
+
     final actors = actorsByMovie[movieId];
 
     return SizedBox(
