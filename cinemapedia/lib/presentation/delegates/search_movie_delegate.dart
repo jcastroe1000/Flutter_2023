@@ -1,39 +1,16 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:cinemapedia/config/helpers/formats.dart';
-import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
+import 'package:animate_do/animate_do.dart';
+import 'package:cinemapedia/domain/entities/movie.dart';
 
 typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMoviesCallback searchMovies;
 
-  StreamController<List<Movie>> debounceMovies = StreamController.broadcast();
-  Timer? _debounceTimer;
-
   SearchMovieDelegate({required this.searchMovies});
 
-  void clearStreams() {
-    debounceMovies.close();
-  }
-
-  void _onQueryChange(String query) {
-    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
-
-    _debounceTimer = Timer(Duration(milliseconds: 500), () async {
-      if (query.isEmpty) {
-        debounceMovies.add([]);
-        return;
-      }
-
-      final movies = await searchMovies(query);
-      debounceMovies.add(movies);
-    });
-  }
-
   @override
-  String get searchFieldLabel => 'Buscar Película';
+  String get searchFieldLabel => 'Buscar Pelicula';
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -48,50 +25,27 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      onPressed: () {
-        clearStreams();
-        close(context, null);
-      },
+      onPressed: () => close(context, null),
       icon: Icon(Icons.arrow_back),
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    return StreamBuilder(
-      stream: debounceMovies.stream,
-      builder: (context, snapshot) {
-        final movies = snapshot.data ?? [];
-        return ListView.builder(
-          itemCount: movies.length,
-          itemBuilder: (context, index) => _MovieItem(
-            movie: movies[index],
-            onMovieSelected: (context, movie) {
-              clearStreams();
-              close(context, movie);
-            },
-          ),
-        );
-      },
-    );
+    return Text('BuildLeading');
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    _onQueryChange(query);
-    return StreamBuilder(
-      stream: debounceMovies.stream,
+    return FutureBuilder(
+      future: searchMovies(query),
+      initialData: [],
       builder: (context, snapshot) {
         final movies = snapshot.data ?? [];
         return ListView.builder(
           itemCount: movies.length,
-          itemBuilder: (context, index) => _MovieItem(
-            movie: movies[index],
-            onMovieSelected: (context, movie) {
-              clearStreams();
-              close(context, movie);
-            },
-          ),
+          itemBuilder: (context, index) =>
+              _MovieItem(movie: movies[index], onMovieSelected: close),
         );
       },
     );
@@ -101,7 +55,6 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 class _MovieItem extends StatelessWidget {
   final Movie movie;
   final Function onMovieSelected;
-
   const _MovieItem({required this.movie, required this.onMovieSelected});
 
   @override
@@ -120,11 +73,7 @@ class _MovieItem extends StatelessWidget {
               width: size.width * 0.2,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  movie.posterPath,
-                  loadingBuilder: (context, child, loadingProgress) =>
-                      FadeIn(child: child),
-                ),
+                child: Image.network(movie.posterPath),
               ),
             ),
             SizedBox(width: 10),
@@ -135,24 +84,8 @@ class _MovieItem extends StatelessWidget {
                 children: [
                   Text(movie.title, style: textStyles.titleMedium),
                   (movie.overview.length > 100)
-                      ? Text('${movie.overview.substring(0, 80)}...')
+                      ? Text('${movie.overview.substring(0, 100)}...')
                       : Text(movie.overview),
-
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.star_half_rounded,
-                        color: Colors.yellow.shade800,
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        '${movie.voteAverage.toStringAsFixed(1)}',
-                        style: textStyles.bodyMedium!.copyWith(
-                          color: Colors.yellow.shade900,
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),

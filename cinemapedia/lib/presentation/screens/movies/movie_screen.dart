@@ -121,13 +121,13 @@ class _ActorsByMovie extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final actorsByMovie = ref.watch(actorsByMovieProvider);
 
-    final actors = actorsByMovie[movieId];
+    final actors = actorsByMovie[movieId]!;
 
     return SizedBox(
       height: 300,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: actors!.length,
+        itemCount: actors.length,
         itemBuilder: (context, index) {
           final actor = actors[index];
           return Container(
@@ -173,6 +173,13 @@ class _CustomSliverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
+      actions: [
+        IconButton(
+          onPressed: () {},
+          //icon: Icon(Icons.favorite_border_outlined),
+          icon: Icon(Icons.favorite, color: Colors.red),
+        ),
+      ],
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
@@ -200,7 +207,45 @@ class _CustomSliverAppBar extends StatelessWidget {
                 ),
               ),
             ),
+
+            //favoritos
+            _CustomGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              stops: [0.0, 0.3],
+              colors: [Colors.black87, Colors.transparent],
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CustomGradient extends StatelessWidget {
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<double> stops;
+  final List<Color> colors;
+
+  const _CustomGradient({
+    this.begin = Alignment.topCenter,
+    this.end = Alignment.bottomCenter,
+    required this.stops,
+    required this.colors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: begin,
+            end: end,
+            stops: stops,
+            colors: colors,
+          ),
         ),
       ),
     );
