@@ -28,6 +28,7 @@ class CustomBottonNavigation extends StatelessWidget {
         break;
       case 2:
         context.go('/favorites');
+
         break;
     }
   }
@@ -38,6 +39,7 @@ class CustomBottonNavigation extends StatelessWidget {
       elevation: 0,
       currentIndex: getCurrentIndex(context),
       onTap: (value) => onItemTap(context, value),
+      selectedItemColor: Colors.red,
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home_max), label: 'Inicio'),
         BottomNavigationBarItem(

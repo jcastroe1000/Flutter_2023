@@ -19,6 +19,8 @@ class CustomAppbar extends ConsumerWidget {
           width: double.infinity,
           child: Row(
             children: [
+              Icon(Icons.dark_mode_outlined),
+              Spacer(),
               Icon(Icons.movie_creation_outlined, color: colors.primary),
               SizedBox(width: 5),
               Text('Cinemapedia', style: titleStyle),
