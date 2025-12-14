@@ -1,2 +1,2 @@
 export 'home_screen.dart';
-export 'cubit_counter_screens.dart';
+export 'cubit_counter_screen.dart';
