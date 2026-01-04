@@ -9,8 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ceja.push_app
-"
+    namespace = "com.ceja.push_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
