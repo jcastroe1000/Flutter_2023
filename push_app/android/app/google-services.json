@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "622031513482",
+    "project_id": "push-notifications-flutt-26282",
+    "storage_bucket": "push-notifications-flutt-26282.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622031513482:android:510be7da07b424bd250a73",
+        "android_client_info": {
+          "package_name": "com.antoniocastro.push_notifications"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTpzio7H6TDrzH8jlMGgrtWPbcDjEl9q0"
+        },
+        {
+          "current_key": "AIzaSyA53ahM6yVVY_qJdeFoRp60ObyTslYZHdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622031513482:android:5d7a27b3c47933b2250a73",
+        "android_client_info": {
+          "package_name": "com.ceja.push_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTpzio7H6TDrzH8jlMGgrtWPbcDjEl9q0"
+        },
+        {
+          "current_key": "AIzaSyA53ahM6yVVY_qJdeFoRp60ObyTslYZHdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
