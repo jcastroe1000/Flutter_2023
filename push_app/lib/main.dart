@@ -13,7 +13,15 @@ void main() async {
   await LocalNotifications.initializeLocalNotificacions();
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => NotificationsBloc())],
+      providers: [
+        BlocProvider(
+          create: (_) => NotificationsBloc(
+            requestLocalNotificationPermissions:
+                LocalNotifications.requestPermissionsLocalNotifications,
+            showLocalNotification: LocalNotifications.showLocalNotification,
+          ),
+        ),
+      ],
       child: MainApp(),
     ),
   );
