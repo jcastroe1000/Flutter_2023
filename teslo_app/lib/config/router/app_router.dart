@@ -16,5 +16,5 @@ final appRouter = GoRouter(
     GoRoute(path: '/', builder: (context, state) => const ProductsScreen()),
   ],
 
-  ///! TODO: Bloquear si no se está autenticado de alguna manera
+  // TODO: Bloquear si no se está autenticado de alguna manera
 );
