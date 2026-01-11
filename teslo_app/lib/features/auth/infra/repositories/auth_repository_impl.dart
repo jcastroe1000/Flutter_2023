@@ -4,7 +4,7 @@ import 'package:teslo_app/features/auth/infra/datasources/auth_datasource_impl.d
 class AuthRepositoryImpl extends AuthReposiroy {
   final AuthDatasource dataSource;
 
-  AuthRepositoryImpl(AuthDatasource? dataSource)
+  AuthRepositoryImpl([AuthDatasource? dataSource])
     : dataSource = dataSource ?? AuthDatasourceImpl();
 
   @override
