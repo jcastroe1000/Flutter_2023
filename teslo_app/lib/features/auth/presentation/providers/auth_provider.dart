@@ -1,24 +1,63 @@
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:teslo_app/features/auth/domain/domain.dart';
 import 'package:teslo_app/features/auth/infra/infra.dart';
+import 'package:teslo_app/features/shared/infra/services/key_value_storage.dart';
+import 'package:teslo_app/features/shared/infra/services/key_value_storage_serv_impl.dart';
 
-final authProvider = StateNotifierProvider.autoDispose<AuthNotifier, AuthState>(
-  (ref) {
-    final authRepository = AuthRepositoryImpl();
-    return AuthNotifier(authReposiroy: authRepository);
-  },
-);
+final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
+  final authRepository = AuthRepositoryImpl();
+  final keyValueStorageService = KeyValueStorageServImpl();
+
+  return AuthNotifier(
+    authRepository: authRepository,
+    keyValueStorageService: keyValueStorageService,
+  );
+});
 
 class AuthNotifier extends StateNotifier<AuthState> {
-  final AuthReposiroy authReposiroy;
+  final AuthRepository authRepository;
+  final KeyValueStorage keyValueStorageService;
 
-  AuthNotifier({required this.authReposiroy}) : super(AuthState());
+  AuthNotifier({
+    required this.authRepository,
+    required this.keyValueStorageService,
+  }) : super(AuthState());
 
-  void loginUser(String email, String password) async {}
+  Future<void> loginUser(String email, String password) async {
+    await Future.delayed(Duration(milliseconds: 500));
+
+    try {
+      final user = await authRepository.login(email, password);
+      _setLoggedUser(user);
+    } on CustomError catch (e) {
+      logout(e.message);
+    } catch (e) {
+      logout('Error no encontrado');
+    }
+  }
 
   void registerUser(String email, String password) async {}
 
+  _setLoggedUser(User user) async {
+    await keyValueStorageService.setKeyValue('token', user.token);
+
+    state = state.copyWith(
+      user: user,
+      authStatus: AuthStatus.authenticated,
+      errorMessage: '',
+    );
+  }
+
   void checkingStatus() async {}
+
+  Future<void> logout([String? errorMessage]) async {
+    await keyValueStorageService.removeKey('token');
+    state.copyWith(
+      authStatus: AuthStatus.notAuthenticated,
+      user: null,
+      errorMessage: errorMessage,
+    );
+  }
 }
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
