@@ -48,7 +48,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
-  void checkingStatus() async {}
+  void checkingStatus() async {
+    final token = await keyValueStorageService.getValue<String>('token');
+    if (token == null) return logout();
+    try {
+      final user = await authRepository.checkAuthStatus(token);
+      _setLoggedUser(user);
+    } catch (e) {
+      logout();
+    }
+  }
 
   Future<void> logout([String? errorMessage]) async {
     await keyValueStorageService.removeKey('token');
