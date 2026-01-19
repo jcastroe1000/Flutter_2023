@@ -3,12 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:teslo_app/features/auth/presentation/providers/auth_provider.dart';
 
 final goRouterNotifierProvider = Provider((ref) {
-  final authNotifer = ref.read(authProvider.notifier);
-  return GoRouterNotifier(authNotifer);
+  final authNotifier = ref.read(authProvider.notifier);
+  return GoRouterNotifier(authNotifier);
 });
 
 class GoRouterNotifier extends ChangeNotifier {
   final AuthNotifier _authNotifier;
+
   AuthStatus _authStatus = AuthStatus.checking;
 
   GoRouterNotifier(this._authNotifier) {
@@ -16,6 +17,7 @@ class GoRouterNotifier extends ChangeNotifier {
       authStatus = state.authStatus;
     });
   }
+
   AuthStatus get authStatus => _authStatus;
 
   set authStatus(AuthStatus value) {

@@ -1,18 +1,21 @@
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:riverpod/legacy.dart';
 import 'package:formz/formz.dart';
 import 'package:teslo_app/features/auth/presentation/providers/auth_provider.dart';
 import 'package:teslo_app/features/shared/shared.dart';
 
+//! 3 - StateNotifierProvider - consume afuera
 final loginFormProvider =
     StateNotifierProvider.autoDispose<LoginFormNotifier, LoginFormState>((ref) {
-      final loginUserCallBack = ref.watch(authProvider.notifier).loginUser;
-      return LoginFormNotifier(loginUserCallBack: loginUserCallBack);
+      final loginUserCallback = ref.watch(authProvider.notifier).loginUser;
+
+      return LoginFormNotifier(loginUserCallback: loginUserCallback);
     });
 
+//! 2 - Como implementamos un notifier
 class LoginFormNotifier extends StateNotifier<LoginFormState> {
-  final Function(String, String) loginUserCallBack;
+  final Function(String, String) loginUserCallback;
 
-  LoginFormNotifier({required this.loginUserCallBack})
+  LoginFormNotifier({required this.loginUserCallback})
     : super(LoginFormState());
 
   onEmailChange(String value) {
@@ -23,7 +26,7 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
     );
   }
 
-  onPasswordChange(String value) {
+  onPasswordChanged(String value) {
     final newPassword = Password.dirty(value);
     state = state.copyWith(
       password: newPassword,
@@ -33,8 +36,14 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
 
   onFormSubmit() async {
     _touchEveryField();
+
     if (!state.isValid) return;
-    await loginUserCallBack(state.email.value, state.password.value);
+
+    state = state.copyWith(isPosting: true);
+
+    await loginUserCallback(state.email.value, state.password.value);
+
+    state = state.copyWith(isPosting: false);
   }
 
   _touchEveryField() {
@@ -50,6 +59,7 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
   }
 }
 
+//! 1 - State del provider
 class LoginFormState {
   final bool isPosting;
   final bool isFormPosted;
@@ -81,13 +91,13 @@ class LoginFormState {
 
   @override
   String toString() {
-    return ''' 
-      isPosting : $isPosting
-      isFormPosted  : $isFormPosted
-      isValid  : $isValid
-      email  : $email
-      password : $password
-
-      ''';
+    return '''
+  LoginFormState:
+    isPosting: $isPosting
+    isFormPosted: $isFormPosted
+    isValid: $isValid
+    email: $email
+    password: $password
+''';
   }
 }

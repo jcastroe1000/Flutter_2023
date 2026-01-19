@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:teslo_app/config/config.dart';
 
 void main() async {
-  await Enviroment.initEnv();
+  await Environment.initEnvironment();
+
   runApp(const ProviderScope(child: MainApp()));
 }
 
@@ -14,6 +14,7 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = ref.watch(goRouterProvider);
+
     return MaterialApp.router(
       routerConfig: appRouter,
       theme: AppTheme().getTheme(),
