@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:teslo_app/features/auth/auth.dart';
 import 'package:teslo_app/features/auth/presentation/providers/auth_provider.dart';
+import 'package:teslo_app/features/products/presentation/screens/product_screen.dart';
 import 'package:teslo_app/features/products/products.dart';
 
 import 'app_router_notifier.dart';
@@ -28,6 +29,11 @@ final goRouterProvider = Provider((ref) {
 
       ///* Product Routes
       GoRoute(path: '/', builder: (context, state) => const ProductsScreen()),
+      GoRoute(
+        path: '/product/:id',
+        builder: (context, state) =>
+            ProductScreen(productId: state.pathParameters['id'] ?? 'no-id'),
+      ),
     ],
 
     redirect: (context, state) {
