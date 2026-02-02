@@ -4,7 +4,7 @@ import 'package:teslo_app/features/products/presentation/providers/products_repo
 
 final productProvider = StateNotifierProvider.autoDispose
     .family<ProductNotifier, ProductState, String>((ref, productId) {
-      final productsRepository = ref.watch(prodcutsRepositoryProvider);
+      final productsRepository = ref.watch(productsRepositoryProvider);
       return ProductNotifier(
         productsRepository: productsRepository,
         productId: productId,
