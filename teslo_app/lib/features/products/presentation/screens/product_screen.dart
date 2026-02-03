@@ -7,6 +7,12 @@ import 'package:teslo_app/features/shared/widgets/widgets.dart';
 class ProductScreen extends ConsumerWidget {
   final String productId;
   const ProductScreen({super.key, required this.productId});
+  void showSnackbar(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Producto Actualizado')));
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +31,11 @@ class ProductScreen extends ConsumerWidget {
         onPressed: () {
           ref
               .read(productFormProvider(productState.product!).notifier)
-              .onFormSubmit();
+              .onFormSubmit()
+              .then((value) {
+                if (!value) return;
+                showSnackbar(context);
+              });
         },
         child: Icon(Icons.save_as_outlined),
       ),
@@ -53,7 +63,12 @@ class _ProductView extends ConsumerWidget {
 
         const SizedBox(height: 10),
         Center(
-          child: Text(productForm.title.value, style: textStyles.titleSmall),
+          child: Text(
+            productForm.title.value,
+            style: textStyles.titleSmall,
+            textAlign: TextAlign.center,
+            maxLines: 3,
+          ),
         ),
         const SizedBox(height: 10),
         _ProductInformation(product: product),
